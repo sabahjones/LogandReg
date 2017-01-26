@@ -56,11 +56,7 @@ def login(request):
             return redirect ('/')
 
         for info in user:
-
-            if info.email == request.POST['email']:
-                hashed = bcrypt.hashpw(request.POST['password'].encode(), bcrypt.gensalt())
-                print hashed
-            if bcrypt.hashpw(info.password.encode(), hashed) == hashed:
+            if bcrypt.checkpw(request.POST["password"].encode(), info.password.encode()):
                 request.session['name'] = info.first_name
                 print info.first_name
                 return redirect('/success')
